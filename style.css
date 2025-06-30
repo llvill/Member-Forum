@@ -19,11 +19,11 @@ body{
     display:flex;
     justify-content: center;
     align-items: center;
-    background-color: #f4f4f4;
+    background-color: #d3d3d3;
 }
 
 .signup-form{
-    background: white;
+    background: rgba(255, 255, 255, 0.976);
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0,0,0,0.25);
@@ -72,3 +72,66 @@ login-link a{
 login-link a:hover{
     text-decoration: underline;
 }
+
+input{
+    border: 2px solid black;
+    border-radius: 20px;
+    margin-bottom: 15px;
+}
+
+input:valid{
+    border-color: green;
+}
+
+/*-----end signup page----- */
+
+/*-----start login page-----*/
+
+.login-form{
+    background: rgba(255, 255, 255, 0.976);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    width:300px;
+    display:flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-form input{
+    padding: 10px;
+    font-size: 16px;
+}
+
+.login-form h2{
+    margin-bottom: 10px;
+    text-align: center;
+    color: #1F2937;
+}
+
+.login-form button{
+    padding: 10px;
+    font-size: 16px;
+    background-color: #1F2937;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.signup-link{
+    margin-top: 15px;
+    text-align: center;
+    font-size: 15px;
+}
+
+signup-link a{
+    color: 1F2937;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+signup-link a:hover{
+    text-decoration: underline;
+}
+
+/*-----end login page-----*/
