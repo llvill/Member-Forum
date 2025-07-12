@@ -5,18 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member Forum Signup</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <div class="page-layout">
       <div class="left-side"></div>
       <div class="right-side">
-          <form class="signup-form">
+          <form class="signup-form" action="/signup" method="POST">
             <h2>Join the Forum</h2>
-            <input type="text" placeholder="Username" required>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Password"  minlength="8" max length="20" required>
-            <input type="password" placeholder="Confirm Password" required>
+            <input type="text" name ="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password"  minlength="8" maxlength="20" required>
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
             <button type="submit">Sign Up</button>
             <p class="login-link">Already have an account? <a href="login.html">Log in</a></p>
           </form>

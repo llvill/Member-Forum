@@ -9,7 +9,7 @@ body{
 }
 .left-side{
     width: 35%;
-    background-image: url('bckground-img-signup.jpg');  
+    background-image: url('/images/bckground-img-signup.jpg');  
     background-size: cover;
     background-position: center;
 }
