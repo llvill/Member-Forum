@@ -1,5 +1,7 @@
 body{
     margin: 0;
+    padding: 0;
+    height: 100%;
     font-family: Arial, sans-serif;
 }
 
@@ -73,14 +75,10 @@ login-link a:hover{
     text-decoration: underline;
 }
 
-input{
+.signup-form input{
     border: 2px solid black;
     border-radius: 20px;
     margin-bottom: 15px;
-}
-
-input:valid{
-    border-color: green;
 }
 
 /*-----end signup page----- */
@@ -101,6 +99,9 @@ input:valid{
 .login-form input{
     padding: 10px;
     font-size: 16px;
+    border: 2px solid black;
+    border-radius: 20px;
+    margin-bottom: 15px;
 }
 
 .login-form h2{
@@ -135,3 +136,73 @@ signup-link a:hover{
 }
 
 /*-----end login page-----*/
+
+/*-----start homepage-----*/
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1F2937;
+    padding: 5px 5%;
+    position: sticky;
+}
+
+.nav-left, .nav-right{
+    display: flex;
+    align-items: center;
+}
+
+.nav-left h1{
+    color: white;
+}
+
+.search-box{
+    background: #efefef;
+    width: 350px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    border-radius: 20px;
+}
+
+.search-box input{
+    width: 100%;
+    background: transparent;
+    padding: 10px;
+    outline: none;
+    border: 0;
+    font-size: 14px;
+}
+
+.home-container{
+    display: flex;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+}
+
+.left-sidebar, .right-sidebar {
+  background: #95a1af;
+  flex-basis: 25%;
+  height: 100%;
+
+}
+
+.main-content{
+    flex-basis: 50%;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f3f3f3;
+}
+
+.feed-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.post {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+}
