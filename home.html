@@ -15,10 +15,13 @@
             <h1>Ghost Post</h1>
         </div>
         <div class="nav-right">
-            <div class = search-box>
+            <div class="search-box">
                 <img src="">
                 <input type="text" placeholder="Search">
             </div>
+            <button class="login-button" onclick="window.location.href='/login'">Login</button>
+            <button class="signup-button" onclick="window.location.href='/signup'">Signup</button>
+
         </div>
     </nav>
 
@@ -37,8 +40,65 @@
         </div>
         <!--------- right-sidebar ------->
         <div class="right-sidebar">
-                <button><i class="fa-solid fa-square-plus"></i></button>
-                    <p>Create post</p> 
+            <div class="create-post">
+                <button class="create-post-btn">
+                    <i class="fa-solid fa-square-plus"></i>
+                    <span>Create Post</span>
+                </button>
+            </div>
         </div>
     </div>
+    <!------- Create Post popup form ------->
+    <div id="create-post-popup" class="popup-form">
+        <div class="popup-content">
+            <form id="create-post-form">
+                <textarea id="post-content" placeholder="What's on your mind?" required></textarea>
+                <button type="submit">Post</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+  const createBtn = document.querySelector('.create-post-btn'); // trigger button
+  const popup = document.getElementById('create-post-popup');    // popup container
+  const form = document.getElementById('create-post-form');
+
+
+  createBtn.addEventListener('click', () => {
+    popup.style.display = 'flex';
+  });
+
+  window.addEventListener('click', (e) => {
+    if (e.target === popup) {
+      popup.style.display = 'none';
+    }
+  });
+
+  
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const content = document.getElementById('post-content').value;
+
+    fetch('/create-post', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content })
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Post failed');
+      return res.json();
+    })
+    .then(data => {
+      popup.style.display = 'none';
+      form.reset();
+      loadPosts(); 
+    })
+    .catch(err => {
+      console.error(err);
+      alert('You must be logged in to post.');
+    });
+  });
+    </script>
+
+
   </body>

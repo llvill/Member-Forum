@@ -2,6 +2,7 @@ const express = require('express');
 const pool = require('./js/db');
 const path = require('path');
 
+
 const app = express();
 
 app.use(express.json());
@@ -38,17 +39,20 @@ app.post('/signup', (req,res) => {
 
 //-----login-----
 app.post('/login', (req, res) => {
-  const{ email, password } = req.body;
+  const{ username, password } = req.body;
+
   pool.query(
-    'SELECT * FROM users WHERE email = $1 AND password = $2',
-    [email, password],
+    'SELECT * FROM users WHERE username = $1 AND password = $2',
+    [username, password],
     (err, result) => {
       if(err) 
         return res.status(500).send('Database error');
 
       if(result.rows.length === 0)
-        return res.status(401).send('Login failed: invalid credentials');
-      res.send('Login successful');
+        return res.status(401).send('<script>alert("Login failed: invalid credentials"); window.location.href="/login";</script>');
+      
+
+      res.redirect('/home.html');
     }
   )
 })
