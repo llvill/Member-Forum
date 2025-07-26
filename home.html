@@ -14,6 +14,7 @@
         <div class="nav-left">
             <h1>Ghost Post</h1>
         </div>
+
         <div class="nav-right">
             <div class="search-box">
                 <img src="">
@@ -21,6 +22,7 @@
             </div>
             <button class="login-button" onclick="window.location.href='/login'">Login</button>
             <button class="signup-button" onclick="window.location.href='/signup'">Signup</button>
+            <button class="logout-button" onclick="window.location.href='/logout'">Logout</button>
 
         </div>
     </nav>
@@ -28,7 +30,9 @@
     <div class="home-container">
         <!--------- left-sidebar ------->
         <div class="left-sidebar">
-
+            <div class ="welcomeMsgCont">
+          <span id="welcome-message" style="color: white; font-size: 30px; font-weight: bolder;" ></span>
+        </div>
         </div>
         <!--------- main content ------->
         <div class="main-content">
@@ -99,6 +103,36 @@
     });
   });
     </script>
+<!------- END Post popup form ------->
 
+<!------- Hide createPostBtn when viewing as "visitor"------>
+<!------- Hide loginBtn and signupBtn when logged in------>
+<!------- Hide logoutBtn when viewing as "visitor" ------>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    fetch('/session')
+      .then(res => res.json())
+      .then(data => {
+        const loginBtn = document.querySelector('.login-button');
+        const signupBtn = document.querySelector('.signup-button');
+        const createPostBtn = document.querySelector('.create-post');
+        const logoutBtn = document.querySelector('.logout-button')
+        const welcomeMsg = document.getElementById('welcome-message');
 
+        if(data.loggedIn) {
+          if(loginBtn) loginBtn.style.display = 'none';
+          if(signupBtn) signupBtn.style.display = 'none';
+          if(logoutBtn) logoutBtn.style.display = 'block';
+          if(createPostBtn) createPostBtn.style.display = 'block';
+        
+          if(welcomeMsg) welcomeMsg.textContent = `Hi ${data.username}!`;
+        }
+        else{
+          if(createBtn) createBtn.style.display = 'none';
+          if(logoutBtn) logoutBtn.style.display = 'none';
+          if(welcomeMsg) welcomeMsg.textContent = '';
+        }
+      });
+  });
+</script>
   </body>

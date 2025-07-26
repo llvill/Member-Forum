@@ -221,7 +221,7 @@ nav{
 }
 
 .create-post {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   height: 100px;
@@ -285,4 +285,20 @@ nav{
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+}
+
+.logout-button{
+    display: none;
+    color: white;
+    font-size: 16px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.welcomeMsgCont{
+    flex: 1;
+    text-align: center;
+    margin-top: 15px;
 }

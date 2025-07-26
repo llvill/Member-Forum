@@ -1,9 +1,15 @@
 const express = require('express');
 const pool = require('./js/db');
 const path = require('path');
-
+const session = require('express-session');
 
 const app = express();
+
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: false
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -33,7 +39,7 @@ app.post('/signup', (req,res) => {
       console.log(err);
       return res.status(500).send('Signup failed');
     }
-    res.send('Signup  successful, user id: ' + result.rows[0].user_id);
+    res.redirect('/home.html');
   })
 })
 
@@ -51,12 +57,23 @@ app.post('/login', (req, res) => {
       if(result.rows.length === 0)
         return res.status(401).send('<script>alert("Login failed: invalid credentials"); window.location.href="/login";</script>');
       
+      req.session.userId = result.rows[0].user_id;
 
       res.redirect('/home.html');
     }
   )
 })
 
+//-----logout-----
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if(err){
+      console.error('Logout error:', err);
+      return res.status(500).send('Error logging out');
+    }
+    res.redirect('/login');
+  })
+})
 /*
 //-----Database connection-----
 app.get('/', (req, res) => {
@@ -70,4 +87,25 @@ app.get('/', (req, res) => {
   });
 });
 */
+
+app.get('/session', (req, res) => {
+ if(!req.session.userId) {
+    return res.json({loggedIn: false});
+ }
+
+pool.query(
+  'SELECT username FROM users where user_id = $1',
+  [req.session.userId],
+  (err, result) => {
+    if(err || result.rows.length === 0){
+      return res.json({loggedIn: false});
+      }
+
+      res.json({
+        loggedIn:true,
+        username:result.rows[0].username
+      });
+    }
+  );
+});
 app.listen(8080, () => console.log('Server running on port 8080'));
