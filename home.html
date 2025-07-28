@@ -31,16 +31,12 @@
         <!--------- left-sidebar ------->
         <div class="left-sidebar">
             <div class ="welcomeMsgCont">
-          <span id="welcome-message" style="color: white; font-size: 30px; font-weight: bolder;" ></span>
+          <span id="welcome-message" style="color: white; font-size: 30px; font-weight: bolderog;" ></span>
         </div>
         </div>
         <!--------- main content ------->
         <div class="main-content">
-            <div class="feed-container">
-                <div class="post">Example Post 1</div>
-                <div class="post">Example Post 2</div>
-                <div class="post">Example Post 3</div>
-            </div>
+            <div class="feed-container"></div>
         </div>
         <!--------- right-sidebar ------->
         <div class="right-sidebar">
@@ -86,10 +82,10 @@
     fetch('/create-post', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ content })
     })
     .then(res => {
-      if (!res.ok) throw new Error('Post failed');
       return res.json();
     })
     .then(data => {
@@ -97,10 +93,6 @@
       form.reset();
       loadPosts(); 
     })
-    .catch(err => {
-      console.error(err);
-      alert('You must be logged in to post.');
-    });
   });
     </script>
 <!------- END Post popup form ------->
@@ -123,7 +115,7 @@
           if(loginBtn) loginBtn.style.display = 'none';
           if(signupBtn) signupBtn.style.display = 'none';
           if(logoutBtn) logoutBtn.style.display = 'block';
-          if(createPostBtn) createPostBtn.style.display = 'block';
+          if(createPostBtn) createPostBtn.style.display = 'flex';
         
           if(welcomeMsg) welcomeMsg.textContent = `Hi ${data.username}!`;
         }
@@ -134,5 +126,24 @@
         }
       });
   });
+</script>
+<script>
+  function loadPosts() {
+    fetch('/posts')
+      .then(res => res.json())
+      .then(posts => {
+        const container = document.querySelector('.feed-container');
+        container.innerHTML = '';
+
+        posts.forEach(post => {
+          const div = document.createElement('div');
+          div.className = 'post';
+          div.textContent = post.content;
+          container.appendChild(div);
+        });
+      });
+  }
+
+  window.onload = loadPosts;
 </script>
   </body>
