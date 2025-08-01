@@ -104,19 +104,6 @@ app.get('/posts', (req, res) => {
       res.json(result.rows);
     });
 });
-/*
-//-----Database connection-----
-app.get('/', (req, res) => {
-  pool.query('SELECT NOW()', (err, result) => {
-    if(err){
-      console.error(err);
-      res.status(500).send('Database connection failed');
-    } else {
-      res.send(`Connected`);
-    }
-  });
-});
-*/
 
 app.get('/session', (req, res) => {
  if(!req.session.userId) {

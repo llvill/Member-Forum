@@ -75,6 +75,12 @@ login-link a:hover{
     text-decoration: underline;
 }
 
+.return-home{
+    text-align: center;
+    margin: 0;
+    font-size: 15px;
+}
+
 .signup-form input{
     border: 2px solid black;
     border-radius: 20px;
