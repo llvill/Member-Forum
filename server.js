@@ -67,10 +67,6 @@ app.post('/login', (req, res) => {
 //-----logout-----
 app.get('/logout', (req, res) => {
   req.session.destroy(err => {
-    if(err){
-      console.error('Logout error:', err);
-      return res.status(500).send('Error logging out');
-    }
     res.redirect('/login');
   })
 })
@@ -100,9 +96,23 @@ app.post('/create-post', (req, res) => {
 });
 
 app.get('/posts', (req, res) => {
-  pool.query( `SELECT content FROM posts ORDER BY created_at DESC`, (err, result) => {
+  if(req.session.userId) {
+    pool.query(
+    `SELECT posts.content, users.username
+    FROM posts
+    JOIN users ON posts.author_id = users.user_id
+    ORDER BY posts.created_at DESC`,
+    (err, result) => {
+      res.json(result.rows);
+    }
+  );
+}
+  else {
+  pool.query( `SELECT content FROM posts ORDER BY created_at DESC`,
+    (err, result) => {
       res.json(result.rows);
     });
+  }
 });
 
 app.get('/session', (req, res) => {
@@ -122,7 +132,6 @@ pool.query(
         loggedIn:true,
         username:result.rows[0].username
       });
-    }
-  );
+    });
 });
 app.listen(8080, () => console.log('Server running on port 8080'));
