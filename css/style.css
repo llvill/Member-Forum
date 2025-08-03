@@ -306,5 +306,11 @@ nav{
 .welcomeMsgCont{
     flex: 1;
     text-align: center;
-    margin-top: 15px;
+    margin-top: 50px;
+}
+
+.ghost-icon{
+    color: white;
+    margin-right: 10px;
+    font-size: 30px;
 }

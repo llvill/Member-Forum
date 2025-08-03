@@ -12,6 +12,7 @@
 
     <nav>
         <div class="nav-left">
+          <i class="fa-solid fa-ghost ghost-icon"></i>
             <h1>Ghost Post</h1>
         </div>
 
@@ -31,7 +32,7 @@
         <!--------- left-sidebar ------->
         <div class="left-sidebar">
             <div class ="welcomeMsgCont">
-          <span id="welcome-message" style="color: white; font-size: 30px; font-weight: bolderog;" ></span>
+          <span id="welcome-message" style="color: #1F2937; font-size: 30px; font-weight: bolder;" ></span>
         </div>
         </div>
         <!--------- main content ------->
@@ -139,8 +140,15 @@
           const div = document.createElement('div');
           div.className = 'post';
 
+          const date = new Date(post.created_at);
+          const formatted = date.toLocaleString();
+
           if(post.username){
-            div.innerHTML = `<strong>${post.username}</strong>: ${post.content}`;
+            div.innerHTML = 
+            `<div><strong>${post.username}:</strong></div>
+            <div>${post.content}</div>
+            <div style="font-size: 12px; color: gray; margin-top: 6px;">${formatted}</div>`;
+            
           }
           else{
             div.textContent = post.content;

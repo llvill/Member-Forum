@@ -39,7 +39,7 @@ app.post('/signup', (req,res) => {
       console.log(err);
       return res.status(500).send('Signup failed');
     }
-    res.redirect('/home.html');
+    res.redirect('/login.html');
   })
 })
 
@@ -98,7 +98,7 @@ app.post('/create-post', (req, res) => {
 app.get('/posts', (req, res) => {
   if(req.session.userId) {
     pool.query(
-    `SELECT posts.content, users.username
+    `SELECT posts.content, users.username, posts.created_at
     FROM posts
     JOIN users ON posts.author_id = users.user_id
     ORDER BY posts.created_at DESC`,
@@ -108,7 +108,7 @@ app.get('/posts', (req, res) => {
   );
 }
   else {
-  pool.query( `SELECT content FROM posts ORDER BY created_at DESC`,
+  pool.query( `SELECT content, created_at FROM posts ORDER BY created_at DESC`,
     (err, result) => {
       res.json(result.rows);
     });
