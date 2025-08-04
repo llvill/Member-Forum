@@ -98,7 +98,7 @@ app.post('/create-post', (req, res) => {
 app.get('/posts', (req, res) => {
   if(req.session.userId) {
     pool.query(
-    `SELECT posts.content, users.username, posts.created_at
+    `SELECT posts.post_id, posts.content, users.username, posts.created_at
     FROM posts
     JOIN users ON posts.author_id = users.user_id
     ORDER BY posts.created_at DESC`,
@@ -108,11 +108,19 @@ app.get('/posts', (req, res) => {
   );
 }
   else {
-  pool.query( `SELECT content, created_at FROM posts ORDER BY created_at DESC`,
+  pool.query( `SELECT post_id, content, created_at FROM posts ORDER BY created_at DESC`,
     (err, result) => {
       res.json(result.rows);
     });
   }
+});
+
+app.delete('/posts/:id', (req, res) => {
+  const postId = req.params.id;
+
+  pool.query('DELETE FROM posts WHERE post_id = $1', [postId], () => {
+    res.sendStatus(200);
+  });
 });
 
 app.get('/session', (req, res) => {
@@ -121,17 +129,13 @@ app.get('/session', (req, res) => {
  }
 
 pool.query(
-  'SELECT username FROM users where user_id = $1',
+  'SELECT username, role FROM users where user_id = $1',
   [req.session.userId],
   (err, result) => {
-    if(err || result.rows.length === 0){
-      return res.json({loggedIn: false});
-      }
-
-      res.json({
-        loggedIn:true,
-        username:result.rows[0].username
-      });
+    const user = result.rows[0];
+    res.json({
+      loggedIn: true, username: user.username, isAdmin: user.role === 'admin'
+    });
     });
 });
 app.listen(8080, () => console.log('Server running on port 8080'));

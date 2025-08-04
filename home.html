@@ -102,6 +102,7 @@
 <!------- Hide loginBtn and signupBtn when logged in------>
 <!------- Hide logoutBtn when viewing as "visitor" ------>
 <script>
+  let isAdmin = false;
   window.addEventListener('DOMContentLoaded', () => {
     fetch('/session')
       .then(res => res.json())
@@ -113,11 +114,11 @@
         const welcomeMsg = document.getElementById('welcome-message');
 
         if(data.loggedIn) {
+          isAdmin = data.isAdmin;
           if(loginBtn) loginBtn.style.display = 'none';
           if(signupBtn) signupBtn.style.display = 'none';
           if(logoutBtn) logoutBtn.style.display = 'block';
           if(createPostBtn) createPostBtn.style.display = 'flex';
-        
           if(welcomeMsg) welcomeMsg.textContent = `Hi ${data.username}!`;
         }
         else{
@@ -154,11 +155,32 @@
             div.textContent = post.content;
           }
           
+          if(isAdmin){
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.addEventListener('click', () => {
+              deletePost(post.post_id);
+            });
+            
+            div.appendChild(document.createElement('br'));
+            div.appendChild(deleteBtn);
+          }
           container.appendChild(div);
         });
       });
   }
 
   window.onload = loadPosts;
+
+  function deletePost(postId) {
+    fetch(`/posts/${postId}`, {
+      method: 'DELETE'
+    })
+    .then(res => {
+      if (res.ok) {
+        loadPosts();
+      }
+    });
+  }
 </script>
   </body>
